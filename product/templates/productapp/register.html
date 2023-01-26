@@ -1,0 +1,19 @@
+{% extends 'productapp/base.html' %}
+{% block title %}Sing Up{% endblock %}
+{% block content %}
+<div class="container">  
+    <p></p>
+    <h2>สมัครสมาชิก</h2>
+    <p></p>
+    <form method="POST">
+        {% csrf_token %}
+       username : <input type="text" name="uname" placeholder="Username">
+        <br><br>
+        password : <input type="text" name="pwd1" placeholder="Password">
+        <br><br>
+        confirm password : <input type="text" name="pwd2" placeholder="Password">
+        <br><br>
+        <input type="submit" name="submit" value="สมัคร">
+    </form>
+</div>
+{% endblock %}

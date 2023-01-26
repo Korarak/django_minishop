@@ -1,0 +1,20 @@
+{% extends 'productapp/base.html' %}
+{% block title %}My Profile{% endblock %}
+{% block content %}
+<div class="container">
+  <h1>My Profile</h1>
+  
+ <p>ชื่อผู้ใช้งาน : {{user.username}}</p>
+ <p>ชื่อจริง : {{user.firstname}}</p>
+ <p>นามสกุล :{{user.lastname}}</p>
+ <p>e-mail : {{user.email}}</p>
+ <p>สถานะผู้ดูแลระบบ : {% if user.is_staff == True %}
+                      <b>ใช่</b>
+                    {% else %}
+                      <b>ไม่ใช่</b>
+                    {% endif %}
+ </p>
+
+  <a href="#" class="btn btn-info" role="button">แก้ไขข้อมูลใน Profile</a>
+</div>
+{% endblock %}

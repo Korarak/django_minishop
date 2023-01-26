@@ -1,0 +1,33 @@
+{% extends 'productapp/base.html' %}
+{% block title %}จัดการข้อมูลสินค้า{% endblock %}
+{% block content %}
+<div class="container">
+<h1>ข้อมูลสินค้าทั้งหมด</h1>
+<div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">ลำดับ</th>
+          <th scope="col">ชื่อสินค้า</th>
+          <th scope="col">จำนวน</th>
+          <th scope="col">ราคา</th>
+          <th scope="col">รายละเอียด</th>
+          <th scope="col">เครื่องมือ</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in product %}
+        <tr>
+          <th scope="row">{{ forloop.counter }}</th>
+          <td>{{p.product_name}}</td>
+          <td>{{p.product_qty}}</td>
+          <td>{{p.product_price}}</td>
+          <td>{{p.product_detail}}</td>
+          <td>แก้ไข ลบ</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock content %}

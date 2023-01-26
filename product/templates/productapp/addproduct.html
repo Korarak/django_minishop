@@ -1,0 +1,27 @@
+{% extends 'productapp/base.html' %}
+{% block title %}Add Product{% endblock %}
+{% block content %}
+<div class="container">
+  <form action="" method="POST">
+    {% csrf_token %}
+    <h3>เพิ่มสินค้า</h3>
+    <div class="form-group">
+      <label for="product_name">ชื่อสินค้า</label>
+      <input type="text" class="form-control" name="product_name" placeholder="กรอกชื่อสินค้า">
+    </div>
+    <div class="form-group">
+      <label for="product_qty">จำนวน</label>
+      <input type="number" class="form-control" name="product_qty" placeholder="กรอกจำนวนสินค้า">
+    </div>
+    <div class="form-group">
+      <label for="product_price">ราคา</label>
+      <input type="number" class="form-control" name="product_price" placeholder="กรอกราคาสินค้า">
+    </div>
+    <div class="form-group">
+      <label for="product_detail">รายละเอียดสินค้า</label>
+      <input type="textarea" class="form-control" name="product_detail" placeholder="ระบุรายละเอียดสินค้า">
+    </div>
+    <button type="submit" class="btn btn-primary">เพิ่มสินค้า</button>
+  </form>
+</div>
+{% endblock content %}
