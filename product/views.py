@@ -8,18 +8,34 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def addtocart(request,id):
-    user = request.user
-    add_product = product_data.objects.get(pk=id)
-    table = cart_add()
-    table.product_id = add_product.product_id
-    table.product_qty = 1
-    table.product_price = int(add_product.product_price)
-    table.email = user.email
-    table.save()
-    return redirect('/cart')
+    if request.user.is_authenticated :
+        user = request.user
+        if user.email == '':
+            messages.warning(request, 'กรุณาเพิ่ม e-mail')
+            return redirect('/myprofile')
+        else:
+            if cart_add.objects.get(pk=id,email=user.email) is not None:
+                increase_qty = cart_add.objects.get(pk=id,email=user.email)
+                increase_qty.product_qty = increase_qty.product_qty + 1
+                increase_qty.save()
+                return redirect('/cart')
+            else:
+                add_product = product_data.objects.get(pk=id)
+                table = cart_add()
+                table.product_id = add_product.product_id
+                table.product_qty = 1
+                table.product_price = int(add_product.product_price)
+                table.email = user.email
+                table.save()
+                return redirect('/cart')
+    else:
+        messages.warning(request,'เข้าสู่ระบบเพื่อสั่งสินค้า')
+        return redirect('/login')
+    
 
 def cart(request):
-    return render(request,'productapp/cart.html')
+    showcart = {'item' : cart_add.objects.all()}
+    return render(request,'productapp/cart.html',showcart)
 
 def search(request):
     if request.method == 'POST':
@@ -85,6 +101,23 @@ def logout(request):
 
 def myprofile(request):
     return render(request,'productapp/myprofile.html')
+
+def editprofile(request,id):
+    if request.method == "POST":
+        if request.POST.get('username'):
+            print(request.POST.get('username'))
+            print(request.POST.get('firstname'))
+            print(request.POST.get('lastname'))
+            print(request.POST.get('email'))
+            table = User.objects.get(pk=id)
+            table.username = request.POST.get('username')
+            table.first_name = request.POST.get('firstname')
+            table.last_name = request.POST.get('lastname')
+            table.email = request.POST.get('email')
+            table.save()
+            messages.success(request,'แก้ไขข้อมูลสำเร็จ')
+            return redirect('/myprofile')
+    return render(request,'productapp/editprofile.html')
 
 def editproduct(request):
     context = {'product' : product_data.objects.all()}

@@ -5,8 +5,8 @@
   <h1>My Profile</h1>
   
  <p>ชื่อผู้ใช้งาน : {{user.username}}</p>
- <p>ชื่อจริง : {{user.firstname}}</p>
- <p>นามสกุล :{{user.lastname}}</p>
+ <p>ชื่อจริง : {{user.first_name}}</p>
+ <p>นามสกุล : {{user.last_name}}</p>
  <p>e-mail : {{user.email}}</p>
  <p>สถานะผู้ดูแลระบบ : {% if user.is_staff == True %}
                       <b>ใช่</b>
@@ -15,6 +15,6 @@
                     {% endif %}
  </p>
 
-  <a href="#" class="btn btn-info" role="button">แก้ไขข้อมูลใน Profile</a>
+  <a href="/editprofile/{{user.id}}" class="btn btn-info" role="button">แก้ไขข้อมูลใน Profile</a>
 </div>
 {% endblock %}

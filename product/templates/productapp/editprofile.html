@@ -1,0 +1,27 @@
+{% extends 'productapp/base.html' %}
+{% block title %}My Profile{% endblock %}
+{% block content %}
+<div class="container">
+  <h1>แก้ไขข้อมูลส่วนตัว</h1>
+  <form action="/editprofile/{{user.id}}" method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="user.username">ชื่อผู้ใช้งาน</label>
+      <input type="text" class="form-control" placeholder="" id="user.username" name="username" value="{{user.username}}">
+    </div>
+    <div class="form-group">
+        <label for="user.firstname">ชื่อจริง</label>
+        <input type="text" class="form-control" placeholder="" id="user.firstname" name="firstname" value="{{user.first_name}}">
+      </div>
+    <div class="form-group">
+        <label for="user.lastname">นามสกุล</label>
+        <input type="text" class="form-control" placeholder="" id="user.lastname" name="lastname" value="{{user.last_name}}">
+      </div>
+    <div class="form-group">
+        <label for="user.email">E-mail</label>
+        <input type="email" class="form-control" placeholder="" id="user.email" name="email" value="{{user.email}}">
+      </div>
+    <button type="submit" class="btn btn-primary">ยืนยันการแก้ไข</button>
+  </form>
+</div>
+{% endblock %}
