@@ -10,17 +10,22 @@
             <th>รายการสินค้า</th>
             <th>จำนวนสินค้า</th>
             <th>ราคาสินค้า</th>
+            <th>ราคารวม</th>
+            <th>แอคชั่น</th>
           </tr>
         </thead>
         <tbody>
           {% for cart_item in item %}
           <tr>
-            <td>{{cart_item.product_id}}</td>
+            <td>{{cart_item.product_id.product_name}}</td>
             <td>{{cart_item.product_qty}}</td>
             <td>{{cart_item.product_price}}</td>
+            <td>{% widthratio cart_item.product_qty 1 cart_item.product_price %}</td>
+            <td><a href="del_cart_item/{{cart_item.product_id_id}}" class="default">ลบ</a></td>
           </tr>
           {% endfor %}
         </tbody>
       </table>
+      <a href="/checkout" class="btn btn-primary">สั่งซื้อ</a>
 </div>
 {% endblock content %}

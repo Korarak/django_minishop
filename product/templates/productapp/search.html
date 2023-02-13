@@ -1,6 +1,7 @@
 {% extends 'productapp/base.html' %}
 {% block title %}Search Product{% endblock %}
 {% block content %}
+{% load static %}
 <div class="container">
     <h3>ค้นหาสินค้า</h3>
     <form action="" method="POST">
@@ -12,7 +13,7 @@
     <div class="row">
         {% for p in result %}
     <div class="card" style="width: 18rem;">
-    <img class="card-img-top" src="..." alt="ภาพตัวอย่าง">
+    <img class="card-img-top" src="{% static 'img/test-product.jpg' %}" alt="ภาพตัวอย่าง">
     <div class="card-body">
       <h5 class="card-title">{{p.product_name}}</h5>
       <p class="card-text">{{p.product_price}}</p>

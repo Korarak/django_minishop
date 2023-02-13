@@ -1,0 +1,38 @@
+{% extends 'productapp/base.html' %}
+{% block title %}checkout{% endblock %}
+{% block content %}
+<div class="container">
+    <p></p>
+    <h1>สรุปรายการสั่งซื้อ</h1>
+    <form action="/checkout" method="POST">
+        {% csrf_token %}
+    <p>ชื่อผู้สั่งสินค้า : {{user.first_name}} {{user.last_name}}</p>
+    <p>E-mail : {{user.email}} </p>
+    <p>วันที่สั่ง : {{nowtime}} </p>
+    <p>ที่อยู่จัดส่ง : <textarea rows="2" cols="50" name="order_address" value="" placeholder="กรุณาระบุที่อยู่จัดส่ง" required></textarea></p>
+    <p>โทร : <input type="number" name="order_tel" placeholder="กรอกเบอร์โทรศัพท์" required></p>
+    <table class="table table-borderless">
+        <thead>
+          <tr>
+            <th>รายการสินค้า</th>
+            <th>จำนวนสินค้า</th>
+            <th>ราคาสินค้า</th>
+            <th>รวม</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for cart_item in item %}
+          <tr>
+            <td>{{cart_item.product_id.product_name}}</td>
+            <td>{{cart_item.product_qty}}</td>
+            <td>{{cart_item.product_price}}</td>
+            <td>{% widthratio cart_item.product_qty 1 cart_item.product_price %}</td>
+          </tr>
+          {% endfor %}
+          <td>รวม {{total_order}} บาท</td>
+        </tbody>
+      </table>
+      <input type="submit" class="btn btn-primary" value="ยืนยัน"> <a href="cart" class="btn btn-warning">ย้อนกลับ</a>
+    </form>
+</div>
+{% endblock content %}

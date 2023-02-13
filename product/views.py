@@ -5,36 +5,101 @@ from .models import *
 from django.contrib.auth import authenticate,login
 from django.contrib.auth.models import User,auth
 from django.contrib.auth.decorators import login_required
+from django.db import transaction
 
 # Create your views here.
+def del_cart_item(request,id):
+    user = request.user
+    item_del = cart_add.objects.get(product_id_id=id,email=user.email)
+    item_del.delete()
+    return redirect("/cart")
+
+def showMyorder(request):
+    user = request.user
+    myorder = order_data.objects.filter(order_email=user.email)
+    myorder_count = order_data.objects.filter(order_email=user.email).count()
+    if myorder_count > 0:
+        for i in myorder:
+            detail = order_detail.objects.filter(order_id_ref=i.order_id)
+            context = {'showmyorder' : myorder , 'item' : detail}
+            return render(request,'productapp/myorder.html',context)
+    else:
+        return render(request,'productapp/myorder.html')
+
+def checkout(request):
+    user = request.user
+    sum_order = cart_add.objects.filter(email=user.email)
+    Nowtime = datetime.now()
+    total = []
+    if sum_order.count() <= 0:
+        return redirect("/")
+    else:    
+        for item in sum_order:
+            """ print(item.product_price)
+            print(item.product_qty) """
+            sum_item = float(item.product_price) * float(item.product_qty)
+            total.append(sum_item)
+        total_order = (sum(total))
+        print(sum_order)
+    if request.method == 'POST':
+            checkout = order_detail()
+            save_order = order_data()
+            save_order.order_total = total_order
+            save_order.order_date = Nowtime
+            save_order.order_address = request.POST.get('order_address')
+            save_order.order_tel = request.POST.get('order_tel')
+            save_order.order_username = user.username
+            save_order.order_email = user.email
+            save_order.save()
+            for x in sum_order:
+                save_order_id = order_data.objects.filter(order_email=user.email).last()
+                checkout = order_detail()
+                checkout.order_id_ref_id =  int(save_order_id.order_id)
+                checkout.p_id = x.product_id
+                checkout.p_qty = x.product_qty
+                checkout.p_price = x.product_price
+                print(checkout.p_id)
+                print(checkout.p_qty)
+                print(checkout.p_price)
+                checkout.save()
+            messages.success(request,'สำเร็จ')
+            return redirect('/showMyorder')
+    showcart = {'item' : cart_add.objects.filter(email=user.email) , 
+                'total_order' : total_order,
+                'nowtime' : Nowtime,
+                }
+    return render(request,'productapp/checkout.html',showcart)
+
 def addtocart(request,id):
+    user = request.user
     if request.user.is_authenticated :
-        user = request.user
         if user.email == '':
             messages.warning(request, 'กรุณาเพิ่ม e-mail')
             return redirect('/myprofile')
         else:
-            if cart_add.objects.get(pk=id,email=user.email) is not None:
-                increase_qty = cart_add.objects.get(pk=id,email=user.email)
-                increase_qty.product_qty = increase_qty.product_qty + 1
-                increase_qty.save()
-                return redirect('/cart')
-            else:
                 add_product = product_data.objects.get(pk=id)
                 table = cart_add()
-                table.product_id = add_product.product_id
-                table.product_qty = 1
-                table.product_price = int(add_product.product_price)
-                table.email = user.email
-                table.save()
-                return redirect('/cart')
+                if cart_add.objects.filter(product_id_id=id,email=user.email):
+                    if cart_add.objects.filter(product_id_id=id,email=user.email) is not None:
+                        increase_qty = cart_add.objects.get(product_id_id=id,email=user.email)
+                        increase_qty.product_qty = increase_qty.product_qty + 1
+                        increase_qty.save()
+                        return redirect('/cart')  
+                else:
+                    table.product_id_id = add_product.product_id
+                    table.product_qty = 1
+                    table.product_price = int(add_product.product_price)
+                    table.email = user.email
+                    table.save()
+                    return redirect('/cart')
     else:
         messages.warning(request,'เข้าสู่ระบบเพื่อสั่งสินค้า')
         return redirect('/login')
     
 
 def cart(request):
-    showcart = {'item' : cart_add.objects.all()}
+    user = request.user
+    showcart = {'item' : cart_add.objects.filter(email=user.email)}
     return render(request,'productapp/cart.html',showcart)
 
 def search(request):
