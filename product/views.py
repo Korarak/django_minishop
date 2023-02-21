@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate,login
 from django.contrib.auth.models import User,auth
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
+from django.db.models import Q
 
 # Create your views here.
 def del_cart_item(request,id):
@@ -16,12 +17,18 @@ def del_cart_item(request,id):
 
 def showMyorder(request):
     user = request.user
-    myorder = order_data.objects.filter(order_email=user.email)
+    order_show_detail = []
     myorder_count = order_data.objects.filter(order_email=user.email).count()
     if myorder_count > 0:
-        for i in myorder:
-            detail = order_detail.objects.filter(order_id_ref=i.order_id)
-            context = {'showmyorder' : myorder , 'item' : detail}
+        if user.is_staff == 0:
+            myorder = order_data.objects.filter(order_email=user.email)
+            detail = order_detail.objects.all()
+            context = {'showmyorder' : myorder , 'dtl' : detail}
+            return render(request,'productapp/myorder.html',context)
+        else :
+            myorder = order_data.objects.all()
+            detail = order_detail.objects.all()
+            context = {'showmyorder' : myorder , 'dtl' : detail}
             return render(request,'productapp/myorder.html',context)
     else:
         return render(request,'productapp/myorder.html')
@@ -62,6 +69,8 @@ def checkout(request):
                 print(checkout.p_qty)
                 print(checkout.p_price)
                 checkout.save()
+                del_cart = cart_add.objects.get(product_id_id= checkout.p_id,email=user.email)
+                del_cart.delete()
             messages.success(request,'สำเร็จ')
             return redirect('/showMyorder')
     showcart = {'item' : cart_add.objects.filter(email=user.email) , 
@@ -200,3 +209,6 @@ def addproduct(request):
             messages.success(request,'เพิ่มข้อมูลสำเร็จ')
             return redirect('/editproduct')
     return render(request,'productapp/addproduct.html')
+
+def admin_custom(request):
+    return render(request,'productapp/admin_custom.html')

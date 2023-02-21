@@ -1,6 +1,6 @@
 {% load static %}
 <html>
-    <title>vendor_project</title>
+    <title>IT_minishop</title>
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -36,36 +36,57 @@
                 <!-- right floating -->
                 <ul class="navbar-nav">
                     {% if user.is_staff == True %} <!-- ถ้าเป็น admin -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="/editproduct">จัดการข้อมูลสินค้า</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                            รายงานข้อมูล
+                        </a>
+                        <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">ข้อมูลยอดขาย</a>
+                        <a class="dropdown-item" href="#">ข้อมูลสมาชิก</a>
+                        </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/addproduct">เพิ่มสินค้า</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                            จัดการข้อมูล
+                        </a>
+                        <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/addproduct">เพิ่มสินค้า</a>
+                        <a class="dropdown-item" href="/editproduct">ข้อมูลสินค้า</a>
+                        </div>
                     </li>
                     {% endif %} <!-- จบ if -->
                     
                     {% if user.is_authenticated %} <!-- ถ้ามีการ login -->
                     <li class="nav-item" > 
+                        <a class="nav-link" href="/cart"> ตะกร้าสินค้า </a> 
+                     </li>
+                    <li class="nav-item" > 
                        <a class="nav-link"> ยินดีต้อนรับ {{user.username}} </a> 
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/cart">ตะกร้าสินค้า</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/showMyorder">รายการสั่งซื้อของฉัน</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/myprofile">My profile</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/logout">Log out</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                            ข้อมูลของฉัน
+                        </a>
+                        <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/showMyorder">รายการสั่งซื้อของฉัน</a>
+                        <a class="dropdown-item" href="/myprofile">จัดการข้อมูลส่วนตัว</a>
+                        <a class="dropdown-item" href="/logout">ออกจากระบบ</a>
+                        </div>
+                    </li><li class="nav-item">
+                        <a class="nav-link" href="/"></a>
+                    </li><li class="nav-item">
+                        <a class="nav-link" href="/"></a>
                     </li>
                     {% else %} <!-- ไม่ login --> 
-                    <li class="nav-item">
-                        <a class="nav-link" href="/login">เข้าสู่ระบบ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/register">สมัครสมาชิก</a>
+                     <!-- Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                            เข้าสู่ระบบ
+                        </a>
+                        <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/login">เข้าสู่ระบบ</a>
+                        <a class="dropdown-item" href="/register">สมัครสมาชิก</a>
+                        </div>
                     </li>
                     {% endif %} <!-- จบ if -->
                 </ul>

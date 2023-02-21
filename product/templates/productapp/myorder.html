@@ -4,20 +4,34 @@
 {% load static %}
 <div class="container">
     <h3>รายการสั่งซื้อของฉัน</h3>
-    {% csrf_token %}    
-    <div class="row">
-        {% for order in showmyorder %}
-    <div class="card" style="width: 100%;">
-    <div class="card-body">
-      <h5 class="card-title">หมายเลข order : {{order.order_id}} วันที่สั่ง : {{order.order_date}}</h5>
-      <p class="card-text">รายการสินค้า : 
-        {% for i in item %}
-        {{i.p_id}}
-        {% endfor %}</p>
-      <p class="card-text">ราคารวม : {{order.order_total}}</p>
-    </div>
-    </div>
-        {% endfor %}
-    </div>
+          {% for order in showmyorder %}
+        <div class="card">
+            <div class="card-header">
+              <div class="row">
+                <div class="col">
+                <h5>หมายเลข order : {{order.order_id}} วันที่สั่ง : {{order.order_date}} ชื่อผู้สั่งซื้อ : {{order.order_username}} 
+                ราคารวม : {{order.order_total}} </h5>
+                </div>
+              <div class="col-mtauto"> 
+                สถานะ
+              </div>  </div>  
+            </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                  <div class="col">          
+                    <p>ที่อยู่จัดส่ง : {{order.order_address}} , โทร : {{order.order_tel}}</p>
+                      <p>รายการสินค้า : 
+                {% for p in dtl %}
+                {% if p.order_id_ref_id ==  order.order_id %}
+                {{p.p_id}}
+                {% endif %}
+                {% endfor %}</p>
+              </div> 
+                <div class="col-mt-auto"></div> 
+                </div> 
+            </div> 
+                {% endfor %}
+        </div>
 </div>
 {% endblock content %}

@@ -2,18 +2,22 @@
 {% block title %}Sing Up{% endblock %}
 {% block content %}
 <div class="container">  
-    <p></p>
-    <h2>สมัครสมาชิก</h2>
-    <p></p>
-    <form method="POST">
+    <h5>สมัครสมาชิก</h5>
+    <form action="" method="POST" >
         {% csrf_token %}
-       username : <input type="text" name="uname" placeholder="Username">
-        <br><br>
-        password : <input type="text" name="pwd1" placeholder="Password">
-        <br><br>
-        confirm password : <input type="text" name="pwd2" placeholder="Password">
-        <br><br>
-        <input type="submit" name="submit" value="สมัคร">
-    </form>
+        <div class="form-group">
+          <label for="Username">สร้างชื่อผู้ใช้งาน :</label>
+          <input type="text" class="form-control" placeholder="Enter Username" id="uname" name="uname">
+        </div>
+        <div class="form-group">
+          <label for="pwd1">กำหนดรหัสผ่าน :</label>
+          <input type="password" class="form-control" placeholder="Enter password" id="pwd1" name="pwd1">
+        </div>
+        <div class="form-group">
+            <label for="pwd2">ยืนยันรหัสผ่าน :</label>
+            <input type="password" class="form-control" placeholder="Confirm Password" id="pwd2" name="pwd2">
+          </div>
+        <button type="submit" class="btn btn-primary">สมัครสมาชิก</button>
+      </form>      
 </div>
 {% endblock %}
