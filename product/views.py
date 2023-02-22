@@ -193,9 +193,31 @@ def editprofile(request,id):
             return redirect('/myprofile')
     return render(request,'productapp/editprofile.html')
 
-def editproduct(request):
+def editproduct(request,id):
+    context = {'product': product_data.objects.get(pk=id)}
+    if request.method == "POST":
+        print(request.POST.get('product_name'))
+        print(request.POST.get('product_qty'))
+        print(request.POST.get('product_price'))
+        print(request.POST.get('product_detail'))
+        table = product_data.objects.get(pk=id)
+        table.product_name = request.POST.get('product_name')
+        table.product_qty = request.POST.get('product_qty')
+        table.product_price = request.POST.get('product_price')
+        table.product_detail = request.POST.get('product_detail')
+        table.save()
+        messages.success(request,'แก้ไขข้อมูลสำเร็จ')
+        return redirect('/product')
+    else:
+        return render(request,'productapp/editproduct.html', context)
+
+def product(request):
     context = {'product' : product_data.objects.all()}
-    return render(request,'productapp/editproduct.html',context)
+    return render(request,'productapp/product.html',context)
+
+def orders(request):
+    context = {'orders' : order_data.objects.all(), 'dtl' : order_detail.objects.all()}
+    return render(request,'productapp/orders.html',context)
 
 def addproduct(request):
     if request.method == "POST":
