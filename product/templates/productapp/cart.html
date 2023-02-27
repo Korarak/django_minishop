@@ -21,11 +21,11 @@
             <td>{{cart_item.product_qty}}</td>
             <td>{{cart_item.product_price}}</td>
             <td>{% widthratio cart_item.product_qty 1 cart_item.product_price %}</td>
-            <td><a href="del_cart_item/{{cart_item.product_id_id}}" class="default">ลบ</a></td>
+            <td><a href="del_cart_item/{{cart_item.product_id_id}}" onclick="return confirm('ต้องการลบ ?')" class="btn btn-outline-danger">ลบ</a></td>
           </tr>
           {% endfor %}
         </tbody>
       </table>
-      <a href="/checkout" class="btn btn-primary">สั่งซื้อ</a>
+      <a href="/checkout" class="btn btn-outline-success">สั่งซื้อ</a>
 </div>
 {% endblock content %}

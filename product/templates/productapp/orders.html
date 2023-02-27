@@ -1,0 +1,40 @@
+{% extends 'productapp/base.html' %}
+{% block title %}checkout{% endblock %}
+{% block content %}
+{% load static %}
+<div class="container">
+    <h3>รายการสั่งซื้อ</h3>
+          {% for order in orders %}
+        <div class="card">
+            <div class="card-header">
+              <div class="row">
+                <div class="col">
+                <h5>หมายเลข order : {{order.order_id}}</h5>
+                <h5> วันที่สั่ง : {{order.order_date}}</h5>
+                <h5> ชื่อผู้สั่งซื้อ : {{order.order_username}} </h5>
+                <h5>ราคารวม : {{order.order_total}} </h5>
+                </div>
+              <div class="col-mtauto"> 
+                สถานะ
+              </div>  </div>  
+            </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                  <div class="col">          
+                    <p>ที่อยู่จัดส่ง : {{order.order_address}} </p>
+                    <p>โทร : {{order.order_tel}}</p>
+                      <p>รายการสินค้า : 
+                {% for p in dtl %}
+                {% if p.order_id_ref_id ==  order.order_id %}
+                {{p.p_id}}
+                {% endif %}
+                {% endfor %}</p>
+              </div> 
+                <div class="col-mt-auto"></div> 
+                </div> 
+            </div> 
+                {% endfor %}
+        </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,29 @@
+{% extends 'productapp/base.html' %}
+{% block title %}Confirm Delete Product{% endblock %}
+{% block content %}
+{% load static %}
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <div class="card" style="width: 25rem;">
+            <img class="card-img-top" src="{% static 'img/test-product.jpg'%}"
+                alt="ภาพตัวอย่าง">
+            <div class="card-body">
+                <h5 class="card-title">{{product.product_name}}</h5>
+                <p class="card-text">{{product.product_price}} บาท</p>
+                {% if status_del %}
+                <a href="/product_del/{{product.product_id}}" onclick="return confirm('ต้องการลบ ?')" class="btn
+                    btn-outline-danger">
+                    <span class="material-icons">delete</span>
+                    ลบสินค้า
+                </a>
+                {%else%}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>ไม่สามารถลบสินค้าได้!</strong>: เพราะสินค้าชิ้นนี้มีข้อมูลอยู่ในตะกร้าสินค้า หรือ คำสั่งซื้อแล้ว
+                  </div>
+                {%endif%}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

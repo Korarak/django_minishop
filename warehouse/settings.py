@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-zh0x3xt7-89o&waf-tgx#v%^+4(u)l-xza^%!5w301mmczho6b
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','172.29.60.71']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -76,12 +76,11 @@ WSGI_APPLICATION = 'warehouse.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'myshop',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'FinalShop31',
+        'USER': 'postgres',
+        'PASSWORD': '5353',
+        'DATABASES': 'localhost'
     }
 }
 
