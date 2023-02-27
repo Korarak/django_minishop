@@ -104,7 +104,6 @@ def addtocart(request,id):
     else:
         messages.warning(request,'เข้าสู่ระบบเพื่อสั่งสินค้า')
         return redirect('/login')
-    
 
 def cart(request):
     user = request.user
@@ -118,6 +117,9 @@ def search(request):
             s_product = request.POST.get('search_product')
             context = {'result' : product_data.objects.filter(product_name__startswith=s_product)}
             return render(request,'productapp/search.html',context)
+        else:
+            context = {'result' : product_data.objects.all()}
+            return render(request,'productapp/search.html',context)   
     return render(request,'productapp/search.html')
 
 def showproduct(request):
@@ -211,6 +213,20 @@ def editproduct(request,id):
     else:
         return render(request,'productapp/editproduct.html', context)
 
+def confirm_productdel(request,id):
+    order = order_detail.objects.filter(p_id=id)
+    cart = cart_add.objects.filter(product_id=id)
+    if order.count() > 0 or cart.count() > 0:
+        context = {'status_del': False, 'product' : product_data.objects.get(pk=id)}
+    else:
+        context = {'status_del': True, 'product' : product_data.objects.get(pk=id)}
+    return render(request,'productapp/product_del.html', context)
+
+def product_del(request,id):
+    item_del = product_data.objects.get(pk=id)
+    item_del.delete()
+    return redirect("/product")
+
 def product(request):
     context = {'product' : product_data.objects.all()}
     return render(request,'productapp/product.html',context)
@@ -229,7 +245,7 @@ def addproduct(request):
             table.product_detail = request.POST.get('product_detail')
             table.save()
             messages.success(request,'เพิ่มข้อมูลสำเร็จ')
-            return redirect('/editproduct')
+            return redirect('/product')
     return render(request,'productapp/addproduct.html')
 
 def admin_custom(request):
