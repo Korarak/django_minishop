@@ -2,7 +2,7 @@ from . import views
 from django.urls import path,include
 
 urlpatterns = [
-    path('',views.showproduct),
+    # path('',views.showproduct),
     path('admin_custom',views.admin_custom),
     path('login',views.login),
     path('register',views.register),
@@ -11,7 +11,7 @@ urlpatterns = [
     path('product',views.product),
     path('editproduct/<int:id>',views.editproduct),
     path('addproduct',views.addproduct),
-    path('search',views.search),
+    path('',views.search),
     path('cart',views.cart),
     path('addtocart/<int:id>',views.addtocart),
     path('editprofile/<int:id>',views.editprofile),

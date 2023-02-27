@@ -111,6 +111,7 @@ def cart(request):
     return render(request,'productapp/cart.html',showcart)
 
 def search(request):
+    context = {'result' : product_data.objects.all()}
     if request.method == 'POST':
         if request.POST.get('search_product'):
             print(request.POST.get('search_product'))
@@ -119,11 +120,11 @@ def search(request):
             return render(request,'productapp/search.html',context)
         else:
             context = {'result' : product_data.objects.all()}
-            return render(request,'productapp/search.html',context)   
-    return render(request,'productapp/search.html')
+            return render(request,'productapp/search.html',context) 
+    return render(request,'productapp/search.html', context)
 
 def showproduct(request):
-    context = {'product' : product_data.objects.all()}
+    context = {'result' : product_data.objects.all()}
     return render(request,'productapp/showproduct.html',context)
 
 def base(request):
