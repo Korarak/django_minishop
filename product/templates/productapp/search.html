@@ -6,20 +6,31 @@
     <h3>ค้นหาสินค้า</h3>
     <form action="" method="POST">
         {% csrf_token %}
-        กรอกชื่อสินค้า : 
-        <input type="text" name="search_product" placeholder="ระบุชื่อสินค้า">
-        <button type="submit" class="btn btn-primary" >ค้นหา</button>
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" name="search_product" placeholder="ระบุชื่อสินค้า" aria-label="ระบุชื่อสินค้า"
+                aria-describedby="basic-addon2">
+            <div class="input-group-append">
+                <button class="btn btn-outline-success" type="submit">ค้นหา</button>
+            </div>
+        </div>
+
     </form>
     <div class="row">
         {% for p in result %}
-    <div class="card" style="width: 18rem;">
-    <img class="card-img-top" src="{% static 'img/test-product.jpg' %}" alt="ภาพตัวอย่าง">
-    <div class="card-body">
-      <h5 class="card-title">{{p.product_name}}</h5>
-      <p class="card-text">{{p.product_price}}</p>
-      <a href="addtocart/{{p.product_id}}" class="btn btn-primary">+ add to cart</a>
-    </div>
-    </div>
+        <div class="col-md-4 col-sm-12">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="{% static 'img/test-product.jpg'%}" alt="ภาพตัวอย่าง">
+                <div class="card-body">
+                    <h5 class="card-title">{{p.product_name}}</h5>
+                    <p class="card-text">{{p.product_price}}</p>
+                    <a href="addtocart/{{p.product_id}}" class="btn
+                        btn-outline-success">
+                        <span class="material-icons">add_shopping_cart</span>
+                        เพิ่มเข้าตะกร้า
+                    </a>
+                </div>
+            </div>
+        </div>
         {% endfor %}
     </div>
 </div>
